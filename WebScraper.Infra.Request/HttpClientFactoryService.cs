@@ -5,7 +5,6 @@ namespace WebScraper.Infra.Request
 {
     public class HttpClientFactoryService
     {
-        //remover cliente estatico
         private readonly IHttpClientFactory _httpClientFactory;
 
         public HttpClientFactoryService(IHttpClientFactory httpClientFactory)

@@ -1,5 +1,4 @@
-﻿// ScraperManager.cs (trecho modificado)
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +15,6 @@ namespace WebScraperMultiThread.Application
         private readonly SemaphoreSlim _semaphore;
         private readonly ILogger<ScraperManager> _logger;
 
-        // Variável para acumular a quantidade de páginas processadas
         private int _totalPagesProcessed = 0;
         public int TotalPagesProcessed => _totalPagesProcessed;
 
@@ -34,7 +32,6 @@ namespace WebScraperMultiThread.Application
 
             foreach (var baseUrl in urls)
             {
-                // Para cada URL base, processa a paginação de forma sequencial
                 tasks.Add(Task.Run(async () =>
                 {
                     string currentUrl = baseUrl;
@@ -45,16 +42,13 @@ namespace WebScraperMultiThread.Application
                         {
                             var scrapeResult = await _scraperService.ScrapeAsync(currentUrl);
 
-                            // Atualiza o contador de páginas processadas (de forma thread-safe)
                             Interlocked.Increment(ref _totalPagesProcessed);
 
-                            // Adiciona os proxies extraídos (acesso sincronizado à lista compartilhada)
                             lock (results)
                             {
                                 results.AddRange(scrapeResult.Proxies);
                             }
 
-                            // Atualiza a URL para a próxima página (se houver)
                             currentUrl = scrapeResult.NextPageUrl;
                         }
                         catch (Exception ex)

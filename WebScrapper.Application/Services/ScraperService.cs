@@ -39,13 +39,10 @@ namespace WebScraperMultiThread.Application
                 HttpResponseMessage response = await _httpClient.SendAsync(request);
                 response.EnsureSuccessStatusCode();
 
-                // Lê o conteúdo HTML da resposta
                 string html = await response.Content.ReadAsStringAsync();
 
-                // Salva o HTML da página em um arquivo
                 await SaveHtmlToFileAsync(url, html);
 
-                // Processa a página para extrair os dados
                 return ExtractData(html, url);
             }
             catch (Exception ex)
@@ -55,39 +52,30 @@ namespace WebScraperMultiThread.Application
             }
         }
 
-        /// <summary>
-        /// Salva o conteúdo HTML recebido em um arquivo. O nome do arquivo é gerado com base no número da página
-        /// (extraído do URL, caso contenha o padrão "/page/") ou "1" se não encontrar.
-        /// </summary>
         private async Task SaveHtmlToFileAsync(string url, string html)
         {
-            // Define um diretório para armazenar os arquivos HTML
             var directory = Path.Combine(Directory.GetCurrentDirectory(), "html_pages");
             Directory.CreateDirectory(directory);
 
-            // Tenta extrair o número da página a partir do URL
-            string pageNumber = "1"; // valor padrão para a primeira página
+            
+            string pageNumber = "1"; 
             if (url.Contains("/page/"))
             {
                 try
                 {
-                    // Exemplo: "https://proxyservers.pro/proxy/list/order/updated/order_dir/desc/page/2"
                     var parts = url.Split(new string[] { "/page/" }, StringSplitOptions.None);
                     if (parts.Length > 1)
                     {
-                        // O que vem depois de "/page/" pode conter mais segmentos; extraímos somente o primeiro número
                         var pagePart = parts[1].Split(new char[] { '/', '?', '&' }, StringSplitOptions.RemoveEmptyEntries)[0];
                         pageNumber = pagePart;
                     }
                 }
                 catch
                 {
-                    // Em caso de erro, usa "1" como padrão
                     pageNumber = "1";
                 }
             }
 
-            // Gera um nome de arquivo usando o número da página
             var fileName = $"page_{pageNumber}.html";
             var filePath = Path.Combine(directory, fileName);
 
@@ -101,7 +89,6 @@ namespace WebScraperMultiThread.Application
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
 
-            // EXTRAÇÃO DOS DADOS DA TABELA
             var rows = doc.DocumentNode.SelectNodes("//table[contains(@class, 'table-hover')]/tbody/tr");
             if (rows != null)
             {
@@ -129,7 +116,6 @@ namespace WebScraperMultiThread.Application
                 _logger.LogWarning("Nenhuma tabela de proxies encontrada.");
             }
 
-            // EXTRAÇÃO DA URL DA PRÓXIMA PÁGINA (se existir)
             var pagination = doc.DocumentNode.SelectSingleNode("//ul[contains(@class, 'pagination')]");
             if (pagination != null)
             {

@@ -1,5 +1,9 @@
 ﻿namespace WebScrapper.Domain.Models
 {
+    /// <summary>
+    /// Alguns atributos foram criado apenas com a finalidade de teste 
+    /// na execução da aplicação desktop;
+    /// </summary>
     public class ProxyDataModel
     {
         public string? IpAddress { get; set; }

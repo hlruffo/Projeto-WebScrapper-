@@ -16,9 +16,6 @@ namespace WebScraper.API.Controllers
             _orchestrator = orchestrator;
         }
 
-        /// <summary>
-        /// Aciona o processo de scraping, salva os resultados e persiste as métricas.
-        /// </summary>
         [HttpGet("run")]
         public async Task<ActionResult<List<ProxyDataModel>>> RunScraping()
         {
