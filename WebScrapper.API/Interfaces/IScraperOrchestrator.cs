@@ -4,7 +4,7 @@ using WebScrapper.Domain.Models;
 
 namespace WebScrapper.Application.Services
 {
-    public interface IScrapingOrchestrator
+    public interface IScraperOrchestrator
     {
         Task<List<ProxyDataModel>> RunScrapingAsync();
     }

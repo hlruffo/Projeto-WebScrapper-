@@ -20,7 +20,7 @@ namespace WebScrapper.Application.Extensions
                 ));
 
             // Registra o orquestrador que encapsula toda a lógica de scraping, persistência de arquivos e métricas.
-            services.AddScoped<IScrapingOrchestrator, ScrapingOrchestrator>();
+            services.AddScoped<IScraperOrchestrator, ScrapingOrchestrator>();
 
             return services;
         }

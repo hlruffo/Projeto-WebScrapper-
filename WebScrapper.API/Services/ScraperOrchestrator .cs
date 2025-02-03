@@ -10,7 +10,7 @@ using WebScraper.Infra.Data.Contexts;
 
 namespace WebScrapper.Application.Services
 {
-    public class ScrapingOrchestrator : IScrapingOrchestrator
+    public class ScrapingOrchestrator : IScraperOrchestrator
     {
         private readonly ScraperManager _scraperManager;
         private readonly ScrapingContext _context;

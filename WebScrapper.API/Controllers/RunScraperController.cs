@@ -9,9 +9,9 @@ namespace WebScraper.API.Controllers
     [Route("api/[controller]")]
     public class ScrapingController : ControllerBase
     {
-        private readonly IScrapingOrchestrator _orchestrator;
+        private readonly IScraperOrchestrator _orchestrator;
 
-        public ScrapingController(IScrapingOrchestrator orchestrator)
+        public ScrapingController(IScraperOrchestrator orchestrator)
         {
             _orchestrator = orchestrator;
         }
